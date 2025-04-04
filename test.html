@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNMASKED Layout Test</title>
+  <style>
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Shared Split Styles */
+    .split-section {
+      display: flex;
+      width: 100vw;
+      height: 100vh; /* Each section fills viewport */
+    }
+    .split-half {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    .split-divider {
+      width: 8px;
+      background: #555;
+      cursor: col-resize;
+    }
+    .split-divider:hover {
+      background: #2563eb;
+    }
+
+    /* Color Schemes */
+    .white { background: white; color: black; }
+    .black { background: black; color: white; }
+
+    /* Navigation */
+    #nav {
+      height: 60px;
+      position: fixed;
+      top: 0;
+      z-index: 100;
+    }
+    
+    /* Content Sections */
+    #content-1 {
+      margin-top: 60px; /* Offset for fixed nav */
+    }
+
+    /* Footer */
+    #footer {
+      height: 80px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Fixed Navigation -->
+  <div class="split-section" id="nav">
+    <div class="split-half black" lang="en">
+      <nav>UNMASKED | About | Contact</nav>
+    </div>
+    <div class="split-divider" id="nav-divider"></div>
+    <div class="split-half white" lang="fr">
+      <nav>DÉMASQUÉ | À propos | Contact</nav>
+    </div>
+  </div>
+
+  <!-- Primary Content Section -->
+  <div class="split-section" id="content-1">
+    <div class="split-half white" lang="en">
+      <h1>Primary Content</h1>
+      <p>English content here. Scroll down for more sections.</p>
+    </div>
+    <div class="split-divider" id="divider-1"></div>
+    <div class="split-half black" lang="fr">
+      <h1>Contenu Principal</h1>
+      <p>Contenu en français ici. Faites défiler vers le bas.</p>
+    </div>
+  </div>
+
+  <!-- Inverted Section 2 -->
+  <div class="split-section" id="content-2">
+    <div class="split-half black" lang="en">
+      <h1>Secondary Content</h1>
+      <p>Inverted color section. English text.</p>
+    </div>
+    <div class="split-divider" id="divider-2"></div>
+    <div class="split-half white" lang="fr">
+      <h1>Contenu Secondaire</h1>
+      <p>Section à couleurs inversées. Texte français.</p>
+    </div>
+  </div>
+
+  <!-- Inverted Section 3 -->
+  <div class="split-section" id="content-3">
+    <div class="split-half white" lang="en">
+      <h1>Tertiary Content</h1>
+      <p>Original colors again. English text.</p>
+    </div>
+    <div class="split-divider" id="divider-3"></div>
+    <div class="split-half black" lang="fr">
+      <h1>Contenu Tertiaire</h1>
+      <p>Couleurs originales à nouveau. Texte français.</p>
+    </div>
+  </div>
+
+  <!-- Inverted Section 4 -->
+<div class="split-section" id="content-4">
+    <div class="split-half black" lang="en">
+      <h1>Quaternary Content</h1>
+      <p>Final inverted section. English text.</p>
+    </div>
+    <div class="split-divider" id="divider-4"></div>
+    <div class="split-half white" lang="fr">
+      <h1>Contenu Quaternaire</h1>
+      <p>Dernière section inversée. Texte français.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="split-section" id="footer">
+    <div class="split-half black" lang="en">
+      <p>© UNMASKED Productions</p>
+    </div>
+    <div class="split-divider" id="footer-divider"></div>
+    <div class="split-half white" lang="fr">
+      <p>© Productions DÉMASQUÉ</p>
+    </div>
+  </div>
+
+  <script>
+    // Simple synchronized divider logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const allDividers = document.querySelectorAll('.split-divider');
+      let isDragging = false;
+      let activeDivider = null;
+
+      // Mouse events
+      allDividers.forEach(divider => {
+        divider.addEventListener('mousedown', (e) => {
+          isDragging = true;
+          activeDivider = e.target;
+          document.body.style.cursor = 'col-resize';
+        });
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        
+        const percent = e.clientX / window.innerWidth * 100;
+        const newPercent = Math.min(Math.max(percent, 20), 80);
+        
+        // Apply to all sections
+        document.querySelectorAll('.split-section').forEach(section => {
+          section.style.setProperty('--split-pos', `${newPercent}%`);
+        });
+      });
+
+      document.addEventListener('mouseup', () => {
+        isDragging = false;
+        document.body.style.cursor = '';
+      });
+
+      // Set initial split position
+      const setSplitPosition = (percent) => {
+        document.documentElement.style.setProperty('--split-pos', `${percent}%`);
+      };
+
+      setSplitPosition(50);
+
+      // CSS rules for split positioning
+      const style = document.createElement('style');
+      style.textContent = `
+        .split-half:first-child {
+          flex: 0 0 calc(var(--split-pos) - 4px);
+        }
+        .split-divider {
+          flex: 0 0 8px;
+        }
+        .split-half:last-child {
+          flex: 1;
+        }
+      `;
+      document.head.appendChild(style);
+    });
+  </script>
+</body>
+</html>
