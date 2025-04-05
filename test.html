@@ -60,6 +60,33 @@
     #footer {
       height: 80px;
     }
+
+    .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 2rem;
+}
+.feature-card {
+    border: 1px solid #ddd;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.feature-card {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.feature-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
   </style>
 </head>
 <body>
@@ -73,6 +100,28 @@
       <nav>DÉMASQUÉ | Aperçu | Production | Galleri | Contact</nav>
     </div>
   </div>
+  <section class="features">
+    <div class="feature-card">
+        <h3>✏️ Dizajn</h3>
+        <p>Moderna rješenja za vaš brand.</p>
+    </div>
+    <div class="feature-card">
+        <h3>⚡ Brzina</h3>
+        <p>Optimizirano za trenutno učitavanje.</p>
+    </div>
+    <div class="feature-card">
+        <h3>📱 Responsivnost</h3>
+        <p>Savršeno na svim uređajima.</p>
+    </div>
+</section>
+<div class="layout-demo">
+  <div class="old-layout"></div>
+  <div class="arrow">→</div>
+  <div class="new-layout"></div>
+</div>
+<!-- Primjer: Dva layouta u iframe-ovima -->
+<iframe src="original.html" width="45%"></iframe>
+<iframe src="modified.html" width="45%"></iframe>
 
   <!-- Primary Content Section -->
   <div class="split-section" id="content-1">
